@@ -2,11 +2,10 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
-const { default: mongoose } = require('mongoose');
 const app = express();
 const admin = require('./routes/admin');
 const path = require('path');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 //Config
     //BodyParser
@@ -20,15 +19,12 @@ const path = require('path');
     }}));
     app.set('view engine', 'handlebars');
     //Mongoose
-    // mongoose.Promise = global.Promise;
-    // mongoose.connect('mongodb://127.0.0.1:27017/blogapp', {
-    //     useMongoClient: true
-    // }).then(function(){
-    //     console.log('Conectado ao Banco de Dados')
-    // }).catch(function(error){
-    //     console.log('Houve um erro ao se conectar com o Banco de Dados: ' + error);
-    // })
-
+    mongoose.Promise = global.Promise;
+    mongoose.connect('mongodb://127.0.0.1:27017/blogapp', {
+    }).then(function(){
+        console.log('Conectado ao Banco de Dados')
+    }).catch(function(error){
+      console.log('Houve um erro ao se conectar com o Banco de Dados: ' + error);})
     //Public
     app.use(express.static(path.join(__dirname, "public")))
 
@@ -40,4 +36,4 @@ app.use('/admin', admin);
 const PORT = 8080;
 app.listen(PORT, function(){
     console.log('Servidor rodando na url: https://localhost:8080')
-})
+});
