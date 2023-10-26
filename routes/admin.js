@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+require('../models/Categoria');
+const Categoria = mongoose.model('categorias');
 
 router.get('/', function(req,res){
     res.render('./admin/index')
@@ -18,7 +21,15 @@ router.get('/categorias/add' , function(req, res){
 })
 
 router.post('/categorias/nova', function(req, res){
-    res.rend
+    const novaCategoria = {
+        nome: req.body.nome,
+        slug: req.body.slug
+    }
+    new Categoria (novaCategoria).save().then(function(){
+        console.log('Categoria Salva com Sucesso')
+    }).catch(function(error){
+        console.log('Houve um erro ao criar uma categoria: ' + error)
+    });
 })
 
 
